@@ -1,3 +1,9 @@
+---
+output:
+  pdf_document:
+    latex_engine: xelatex
+  html_document: default
+---
 
 # Implement a Planning Search
 
