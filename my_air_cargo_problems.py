@@ -205,8 +205,15 @@ class AirCargoProblem(Problem):
         executed.
         '''
         # TODO implement (see Russell-Norvig Ed-3 10.2.3  or Russell-Norvig Ed-2 11.2)
-        count = 0
-        return count
+        # non_achieved_goals = 0
+
+        # Get the current state
+        state = decode_state(node.state, self.state_map).pos
+
+        # Get the non achieved goals
+        non_achieved_goals = [goal for goal in self.goal if goal not in state]
+
+        return len(non_achieved_goals)
 
 
 def air_cargo_p1() -> AirCargoProblem:
