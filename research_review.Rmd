@@ -1,0 +1,39 @@
+---
+title: "Historical developments in the field of planning and search"
+author: "Sergio Uribe"
+date: "26 april 2017"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+# STRIPS [^fn1]
+
+The first major planning system STRIPS (Fikes and Nilsson, 1971) is a state-space search system that uses means-ends analaysis to guide it to a goal-satisfying model. It was implemented in LISP and used for robot research at SRI. 
+The search space was divided into world models and tried to find a world model where a given goal is achieved. The problem solver assumes that an initial world model can be transformed  by the use of operators into another world model which satisfies the goals. The main task of the solver is to find the sequence of operators that solve this transformation. This framework becomes central to much of the research in artificial intelligence[1].
+The proccesses of theorem proving and world space searching are separated, allowing the use of separate strategies.
+The theorem proving methods are used within a given world to answer which operators can be used and whether or not a goal is achieved.
+The search strategy focus on finding the differences between the goals and the current state and identify the operators that change the current world into a world that reduces those differences.
+
+# HSP [^fn2]
+
+The heuristic search planners extract heuristics from STRIPS encodings transforming planning problems into problems of heuristic search. These planners can be used in different domains because it uses a declarative language for representing problems and a general mechanims for calculating heuristics from this representation. These planner can be then used as general problem solvers to solve problems from different domains.
+The state model is a tuple S = (S, $s_0$, S$G$, A, f, c) where S is a set of states s, $s_0$ is the initial state, $S_G$ is a set of goal states, A denotes the actions application in each state s, f(a, s) denotes a state transition function and c(a, s) is the cost of doing action a in state s.
+The heuristics function h takes into account only the positive actions and estimating the cost of achieving the goal atoms from state s. There are two heuristics used: $h_add$ is the weighted sum of the costs of individual atoms and $h_max$ results from setting the costs to the max costs of the atoms.
+The search strategies used are: hill-climbing (HSP), best-first search(HSP2) and regression search (HSPr).
+In the experiments the results obtained prove that a general problem solver can be competitive with some of the current planners of the time, but that there was still a gap in performance with the specialized problem solvers.
+
+
+# Fast-Forward [^fn3]
+
+Fast-Forward could be seen as a succesor of the HSP system, with the same basic ideas by forward search in the state space and the automatically extracted heuristics from STRIP encoding that guide the search.
+The improvements of the Fast-Forward system are: a better heuristic evaluation that takes into account the positive interactions between facts(actions), a search strategy based on a breadth first search from each state in order to find a state with a better evaluation than the current sate (enforced hill-climbing), and finally pruning by the use of helpful actions that identify a set of succesors that are most useful.
+
+[^fn1]: STRIPS\: a new approach to the application of theorem proving to problem solving. (Fikes and Nilsson, 1971)
+[^fn2]: Planning as heuristic search. (Bonet and Geffner, 2000)
+[^fn3]: FF\: The Fast-Forward Planning System. (Hoffmann, 2000)
+
+

@@ -1,0 +1,16 @@
+Problem,Search,Expansions,Goal_tests,New_nodes,Plan_length,Time_elapsed
+1,breadth_first,43,56,180,6,0.034
+1,depth_first,12,13,48,12,0.009
+1,greedy_best_first,7,9,28,6,0.006
+1,ignore_preconditions,41,43,170,6,0.033
+1,pg_levelsum,11,13,50,6,2.46
+2,breadth_first,3343,4609,30509,9,21.013
+2,depth_first,1669,1670,14863,1444,31.97
+2,greedy_best_first,990,992,8910,17,11.847
+2,ignore_preconditions,1506,1508,13820,9,17.18
+2,pg_levelsum,86,88,841,9,298.738
+3,breadth_first,13601,16987,106167,12,136.437
+3,depth_first,1292,1293,5744,875,4.53
+3,greedy_best_first,5645,5647,41480,27,162.876
+3,ignore_preconditions,3890,3892,31331,12,80.431
+3,pg_levelsum,451,453,3090,12,1382.199
