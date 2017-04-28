@@ -1,7 +1,6 @@
 ---
 output:
-  pdf_document:
-    latex_engine: xelatex
+  pdf_document:default
   html_document: default
 ---
 
