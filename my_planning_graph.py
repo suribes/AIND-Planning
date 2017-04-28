@@ -2,6 +2,7 @@ from aimacode.planning import Action
 from aimacode.search import Problem
 from aimacode.utils import expr
 from lp_utils import decode_state
+import logging
 
 
 class PgNode():
@@ -428,23 +429,29 @@ class PlanningGraph():
         :return: bool
         '''
         # TODO test for Inconsistent Effects between nodes
-        mutex = False
+        # mutex = False
 
-        # Get the effect nodes from each action node
-        effects_add_a1 = node_a1.action.effect_add
-        effects_rem_a1 = node_a1.action.effect_rem
+        # # Get the effect nodes from each action node
+        # effects_add_a1 = node_a1.action.effect_add
+        # effects_rem_a1 = node_a1.action.effect_rem
 
-        effects_add_a2 = node_a2.action.effect_add
-        effects_rem_a2 = node_a2.action.effect_rem
+        # effects_add_a2 = node_a2.action.effect_add
+        # effects_rem_a2 = node_a2.action.effect_rem
 
-        # Check whether there are inconsistent effects between nodes
-        mutex_nodes_a1_a2 = [(eff_add, eff_rem) for eff_add, eff_rem in zip(effects_add_a1, effects_rem_a2) if eff_add == eff_rem]
-        mutex_nodes_a2_a1 = [(eff_add, eff_rem) for eff_add, eff_rem in zip(effects_add_a2, effects_rem_a1) if eff_add == eff_rem]
+        # # Check whether there are inconsistent effects between nodes
+        # mutex_nodes_a1_a2 = [(eff_add, eff_rem) for eff_add, eff_rem in zip(effects_add_a1, effects_rem_a2) if eff_add == eff_rem]
+        # mutex_nodes_a2_a1 = [(eff_add, eff_rem) for eff_add, eff_rem in zip(effects_add_a2, effects_rem_a1) if eff_add == eff_rem]
 
-        if (len(mutex_nodes_a1_a2) or len(mutex_nodes_a2_a1)):
-            mutex = True
+        # if (len(mutex_nodes_a1_a2) or len(mutex_nodes_a2_a1)):
+        #     mutex = True
 
-        return mutex
+        # return mutex
+
+        # An alternative way to write below piece of code is as follows:
+
+        return  (  len(list(set(node_a1.action.effect_add) & set(node_a2.action.effect_rem))) > 0
+                or len(list(set(node_a2.action.effect_add) & set(node_a1.action.effect_rem))) > 0
+                )
 
     def interference_mutex(self, node_a1: PgNode_a, node_a2: PgNode_a) -> bool:
         '''_
@@ -460,34 +467,43 @@ class PlanningGraph():
         :param node_a2: PgNode_a
         :return: bool
         '''
-        # TODO test for Interference between nodes
-        mutex = False
+        # # TODO test for Interference between nodes
+        # mutex = False
 
-        # Get the effect nodes from each action node
-        effects_add_a1 = node_a1.action.effect_add
-        effects_rem_a1 = node_a1.action.effect_rem
+        # # Get the effect nodes from each action node
+        # effects_add_a1 = node_a1.action.effect_add
+        # effects_rem_a1 = node_a1.action.effect_rem
 
-        effects_add_a2 = node_a2.action.effect_add
-        effects_rem_a2 = node_a2.action.effect_rem
+        # effects_add_a2 = node_a2.action.effect_add
+        # effects_rem_a2 = node_a2.action.effect_rem
 
-        # Get the precondtitions from each action node
-        precond_pos_a1 = node_a1.action.precond_pos
-        precond_neg_a1 = node_a1.action.precond_neg
+        # # Get the precondtitions from each action node
+        # precond_pos_a1 = node_a1.action.precond_pos
+        # precond_neg_a1 = node_a1.action.precond_neg
 
-        precond_pos_a2 = node_a2.action.precond_pos
-        precond_neg_a2 = node_a2.action.precond_neg
+        # precond_pos_a2 = node_a2.action.precond_pos
+        # precond_neg_a2 = node_a2.action.precond_neg
 
-        # Check whether the effect of one action is the negation of a precondition of the other
-        mutex_nodes_a1_add_a2_neg = [(eff_add, prec_neg) for eff_add, prec_neg in zip(effects_add_a1, precond_neg_a2) if eff_add == prec_neg]
-        mutex_nodes_a1_rem_a2_pos = [(eff_rem, prec_pos) for eff_rem, prec_pos in zip(effects_rem_a1, precond_pos_a2) if eff_rem == prec_pos]
+        # # Check whether the effect of one action is the negation of a precondition of the other
+        # mutex_nodes_a1_add_a2_neg = [(eff_add, prec_neg) for eff_add, prec_neg in zip(effects_add_a1, precond_neg_a2) if eff_add == prec_neg]
+        # mutex_nodes_a1_rem_a2_pos = [(eff_rem, prec_pos) for eff_rem, prec_pos in zip(effects_rem_a1, precond_pos_a2) if eff_rem == prec_pos]
 
-        mutex_nodes_a2_add_a1_neg = [(eff_add, prec_neg) for eff_add, prec_neg in zip(effects_add_a2, precond_neg_a1) if eff_add == prec_neg]
-        mutex_nodes_a2_rem_a1_pos = [(eff_rem, prec_pos) for eff_rem, prec_pos in zip(effects_rem_a2, precond_pos_a1) if eff_rem == prec_pos]
+        # mutex_nodes_a2_add_a1_neg = [(eff_add, prec_neg) for eff_add, prec_neg in zip(effects_add_a2, precond_neg_a1) if eff_add == prec_neg]
+        # mutex_nodes_a2_rem_a1_pos = [(eff_rem, prec_pos) for eff_rem, prec_pos in zip(effects_rem_a2, precond_pos_a1) if eff_rem == prec_pos]
 
-        if (len(mutex_nodes_a1_add_a2_neg) or len(mutex_nodes_a1_rem_a2_pos) or len(mutex_nodes_a2_add_a1_neg) or len(mutex_nodes_a2_rem_a1_pos)):
-            mutex = True
+        # if (len(mutex_nodes_a1_add_a2_neg) or len(mutex_nodes_a1_rem_a2_pos) or len(mutex_nodes_a2_add_a1_neg) or len(mutex_nodes_a2_rem_a1_pos)):
+        #     mutex = True
 
-        return mutex
+        # return mutex
+
+        # An alternative way to write below piece of code is as follows:
+
+        return  (  len(list(set(node_a1.action.effect_add) & set(node_a2.action.precond_neg))) > 0
+                or len(list(set(node_a2.action.effect_add) & set(node_a1.action.precond_neg))) > 0
+                or len(list(set(node_a1.action.effect_rem) & set(node_a2.action.precond_pos))) > 0
+                or len(list(set(node_a2.action.effect_rem) & set(node_a1.action.precond_pos))) > 0
+                )
+
 
 
     def competing_needs_mutex(self, node_a1: PgNode_a, node_a2: PgNode_a) -> bool:
